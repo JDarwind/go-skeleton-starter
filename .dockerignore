@@ -7,6 +7,7 @@ tmp/
 docker-compose.yaml
 docker/
 Makefile
+README.md
 
 .DS_Store
 .idea/
