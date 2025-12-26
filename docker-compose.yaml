@@ -1,0 +1,17 @@
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: docker/dev/Dockerfile
+    container_name: go-skeleton-app
+    env_file:
+      - .env
+    ports:
+      - "8081:8081"
+    networks:
+      - go-skeleton-network
+
+networks:
+  go-skeleton-network:
+    driver: bridge
+  

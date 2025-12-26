@@ -1,0 +1,17 @@
+bin/
+.env
+.git/
+.gitignore
+LICENSE
+tmp/
+docker-compose.yaml
+docker/
+Makefile
+
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+**/*_test.go
+docs/
