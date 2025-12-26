@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: docker/dev/Dockerfile
     container_name: go-skeleton-app
+    volumes:
+      - ./:/app
     env_file:
       - .env
     ports:

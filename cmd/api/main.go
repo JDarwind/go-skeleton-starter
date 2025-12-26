@@ -8,8 +8,6 @@ import (
 	"net/http"
 )
 
-
-
 func main(){
 	configurations := config.LoadConfig()
 

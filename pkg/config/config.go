@@ -7,8 +7,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-
-
 type Config struct{
 	ProjectConfig ProjectConfig
 	
