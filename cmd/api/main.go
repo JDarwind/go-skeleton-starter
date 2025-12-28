@@ -11,7 +11,7 @@ import (
 
 func main(){
 	configurations := config.NewConfigManager(nil).GetConfig()
-
+	
 	mux := server.InitMuxWithRoutes( routes.NewRouter() )
 	
 	if err:= http.ListenAndServe(":" + configurations.ServerConfig.Port, mux); err != nil {
