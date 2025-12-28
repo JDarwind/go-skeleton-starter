@@ -7,7 +7,7 @@ import (
 )
 
 func InitMuxWithRoutes(router *http.ServeMux) *http.ServeMux {
-	cfg := config.LoadConfig()
+	cfg := config.GetConfigManager().GetConfig()
 
 	server := http.NewServeMux()
 

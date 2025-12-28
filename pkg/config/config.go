@@ -8,49 +8,105 @@ import (
 )
 
 type Config struct{
-	ProjectConfig ProjectConfig
+	ProjectConfig projectConfig
 	
 	ServerConfig struct {
 		Port string
 	}
+	ApplicationConfigs any
 }
 
-var configurations *Config = nil;
-
-func LoadConfig () ( *Config ){
-	
-	if configurations != nil {
-		return configurations
-	}
-	
-	configurations = &Config{}
-	
-	envFile, err:= filepath.Abs(".env")
-	
-	if err != nil{
-		log.Fatal(err)
-	}
-	
-	_= godotenv.Load(envFile)
-	
-	initConfiguartionObject()
-	
-	return configurations
+type ConfigOptions struct {
+	EnvironmentFileLocaltion string
+	ApplicationConfigs any
 }
 
-func initConfiguartionObject(){
+
+type ConfigManager struct {
+	environmentFileLocaltion string
+	applicationConfigs any
+	configurations *Config
+}
+
+var configrationManager *ConfigManager = nil
+
+
+func NewConfigManager(options *ConfigOptions) *ConfigManager {
+	
+	if options == nil{
+		options = &ConfigOptions{
+			EnvironmentFileLocaltion: "",
+			ApplicationConfigs: nil,
+		}
+	}
+	
+    envFile := ".env"
+    if options != nil && options.EnvironmentFileLocaltion != "" {
+        envFile = options.EnvironmentFileLocaltion
+    }
+
+    var appConfig any
+    if options != nil && options.ApplicationConfigs != nil {
+        appConfig = options.ApplicationConfigs
+    }
+
+    cm := &ConfigManager{
+        environmentFileLocaltion: envFile,
+        applicationConfigs:       appConfig,
+        configurations:           nil,
+    }
+
+    cm.loadConfig()
+    
+    configrationManager = cm
+    return cm
+}
+
+func (cm *ConfigManager) loadConfig() *Config {
+    if cm.configurations != nil {
+        return cm.configurations
+    }
+
+    cm.configurations = &Config{}
+
+    envFile, err := filepath.Abs(cm.environmentFileLocaltion)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    _ = godotenv.Load(envFile)
+
+    cm.initConfiguartionObject()
+
+    cm.configurations.ApplicationConfigs = cm.applicationConfigs
+    return cm.configurations
+}
+
+func GetConfigManager() (*ConfigManager){
+	if configrationManager == nil{
+		panic("Config Manager not initialized")
+	}
+	return configrationManager
+}
+
+func(configManager *ConfigManager) GetConfig()  ( *Config ){
+	return configManager.configurations
+}
+
+
+func (configManager *ConfigManager) initConfiguartionObject(){
 	projectConfig, err := loadProjectConfig()
 	
 	if err != nil{
 		log.Fatal(err)
 	}
 	
-	configurations.ServerConfig.Port = getEnv("APP_PORT", "")
-	configurations.ProjectConfig.Server.Prefix = projectConfig.Server.Prefix
+	configManager.configurations.ServerConfig.Port = configManager.getEnv("APP_PORT", "")
+	configManager.configurations.ProjectConfig.Server.Prefix = projectConfig.Server.Prefix
 }
 
 
-func getEnv( name string, defaultValue string ) ( string ) {
+func (configManager *ConfigManager) getEnv( name string, defaultValue string ) ( string ) {
 	env:= os.Getenv( name )
 
 	if env != "" {

@@ -7,15 +7,15 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type Server struct {
+type server struct {
 	Prefix string `yaml:"prefix"`
 }
 
-type ProjectConfig struct {
-	Server Server `yaml:"server"`
+type projectConfig struct {
+	Server server `yaml:"server"`
 }
 
-func loadProjectConfig() (*ProjectConfig, error) {
+func loadProjectConfig() (*projectConfig, error) {
 	file, err := filepath.Abs(filepath.Join("project", "project.yaml"))
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func loadProjectConfig() (*ProjectConfig, error) {
 		return nil, err
 	}
 
-	var projectConfigurations ProjectConfig
+	var projectConfigurations projectConfig
 	if err := yaml.Unmarshal(data, &projectConfigurations); err != nil {
 		return nil, err
 	}

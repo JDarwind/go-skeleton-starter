@@ -1,15 +1,16 @@
 package main
 
 import (
-	"github.com/JDarwind/go-skeleton-starter/pkg/config"
-	"github.com/JDarwind/go-skeleton-starter/internals/routes"
-	"github.com/JDarwind/go-skeleton-starter/pkg/server"
 	"log"
 	"net/http"
+
+	"github.com/JDarwind/go-skeleton-starter/internals/routes"
+	"github.com/JDarwind/go-skeleton-starter/pkg/config"
+	"github.com/JDarwind/go-skeleton-starter/pkg/server"
 )
 
 func main(){
-	configurations := config.LoadConfig()
+	configurations := config.NewConfigManager(nil).GetConfig()
 
 	mux := server.InitMuxWithRoutes( routes.NewRouter() )
 	
