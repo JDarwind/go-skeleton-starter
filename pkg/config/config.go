@@ -4,11 +4,14 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/JDarwind/go-skeleton-starter/pkg/types"
+	"github.com/JDarwind/go-skeleton-starter/project"
 	"github.com/joho/godotenv"
 )
 
 type Config struct{
-	ProjectConfig projectConfig
+	ProjectConfig types.ProjectConfig
 	
 	ServerConfig struct {
 		Port string
@@ -27,6 +30,7 @@ type ConfigManager struct {
 	applicationConfigs any
 	configurations *Config
 }
+
 
 var configrationManager *ConfigManager = nil
 
@@ -95,7 +99,7 @@ func(configManager *ConfigManager) GetConfig()  ( *Config ){
 
 
 func (configManager *ConfigManager) initConfiguartionObject(){
-	projectConfig, err := loadProjectConfig()
+	projectConfig, err := project.InitProject()
 	
 	if err != nil{
 		log.Fatal(err)

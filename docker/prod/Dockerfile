@@ -14,8 +14,6 @@ WORKDIR /app
 RUN apk add --no-cache ca-certificates
 
 COPY --from=build /out/api /usr/local/bin/api
-COPY --from=build /out/cli /usr/local/bin/entence
-
-COPY project/project.yaml /app/project/project.yaml
+COPY --from=build /out/cli /usr/local/bin/cli
 
 ENTRYPOINT ["api"]
