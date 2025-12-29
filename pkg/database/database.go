@@ -1,5 +1,7 @@
 package database
 
+import "fmt"
+
 type Database interface {
 	Connect() error
 	Close()  error
@@ -31,4 +33,18 @@ func (dbManager *DatabaseManager) AddDatabaseToList(db Database, name string) (*
 func (dbManager *DatabaseManager) RemoveDbFromList(name string) (*DatabaseManager){
 	delete(dbManager.databaseConnectionsMap, name)
 	return dbManager
+}
+
+
+func (dbManager *DatabaseManager) GetDatabaseConnection(name string) (Database, error) {
+	if name == "" {
+		name = "default"
+	}
+
+	db, ok := dbManager.databaseConnectionsMap[name]
+	if !ok {
+		return nil, fmt.Errorf("database connection with name %s not found", name)
+	}
+	
+	return db, nil
 }
