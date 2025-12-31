@@ -19,10 +19,28 @@ services:
       environment:
         MYSQL_ROOT_PASSWORD: my-secret-pw
         MYSQL_DATABASE: my_database
+        MYSQL_USER: app_user
+        MYSQL_PASSWORD: app_pwd
       ports:
         - "3306:3306"
       volumes:
         - mysql-data:/var/lib/mysql
+      networks:
+      - go-skeleton-network
+  
+  db_postgres:
+      image: pgvector/pgvector:pg16
+      container_name: postgres-container
+      volumes:
+          - postgres-data:/var/lib/postgresql
+      environment:
+          POSTGRES_PASSWORD: postgres_pwd
+          POSTGRES_USER: postgres_usr
+          POSTGRES_DB: postgres
+      ports:
+          - "5433:5432"
+      networks:
+          - go-skeleton-network
   
 networks:
   go-skeleton-network:
@@ -30,3 +48,4 @@ networks:
 
 volumes:
   mysql-data:
+  postgres-data:

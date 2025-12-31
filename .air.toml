@@ -2,9 +2,9 @@ root = "."
 tmp_dir = "tmp"
 
 [build]
-  cmd = "go build -o ./tmp/api ./cmd/api"
+  cmd = "go build -tags integration -o ./tmp/api ./cmd/api"
   bin = "./tmp/api"
-  delay = 100
+  delay = 500
   poll = true
   poll_interval = 500
 
