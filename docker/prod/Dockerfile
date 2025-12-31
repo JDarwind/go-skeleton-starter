@@ -3,7 +3,7 @@ WORKDIR /src
 
 COPY go.mod go.sum ./
 
-COPY . .
+COPY --exclude="tests" . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o /out/api ./cmd/api
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o /out/cli ./cmd/cli
