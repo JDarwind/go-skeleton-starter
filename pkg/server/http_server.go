@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func InitMuxWithRoutes(router *http.ServeMux) *http.ServeMux {
+func InitMuxWithRoutes(router http.Handler ) *http.ServeMux {
 	cfg := config.GetConfigManager().GetConfig()
 
 	server := http.NewServeMux()

@@ -1,9 +1,9 @@
 package types
 
 type Server struct {
-	Prefix string `yaml:"prefix"`
+	Prefix string 
 }
 
 type ProjectConfig struct {
-	Server Server `yaml:"server"`
+	Server Server
 }
