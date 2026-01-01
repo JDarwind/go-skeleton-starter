@@ -6,8 +6,6 @@ import (
 	"github.com/JDarwind/go-skeleton-starter/pkg/database"
 )
 
-
-
 func NewPostgresDriver(driverType PostgresDriverType, cfg PostgresConfig) (database.Database, error) {
 	normalizeConfig(&cfg)
 	switch driverType {

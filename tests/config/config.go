@@ -47,7 +47,6 @@ func Load() (TestConfig, error) {
 			return
 		}
 
-		// Risali fino a trovare la cartella "tests"
 		var envPath string
 		dir := wd
 
@@ -71,7 +70,6 @@ func Load() (TestConfig, error) {
 			return
 		}
 
-		// --- Postgres ---
 		cfg.Postgres = Postgres{
 			Host:     os.Getenv("POSTGRES_HOST"),
 			Port:     os.Getenv("POSTGRES_PORT"),
@@ -89,7 +87,6 @@ func Load() (TestConfig, error) {
 			return
 		}
 
-		// --- MySQL ---
 		mysqlPort, err := strconv.Atoi(os.Getenv("MYSQL_PORT"))
 		if err != nil {
 			loadErr = fmt.Errorf("invalid MYSQL_PORT: %w", err)

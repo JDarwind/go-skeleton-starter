@@ -1,6 +1,8 @@
-package network
+package httpkit
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type Middleware func(http.Handler) http.Handler
 

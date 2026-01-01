@@ -8,8 +8,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-
-
 type MysqlDriver struct {
 	mu     sync.Mutex
 	cfg    MysqlConfig
