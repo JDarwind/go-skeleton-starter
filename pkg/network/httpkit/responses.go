@@ -11,6 +11,7 @@ type Response struct {
 	r           *http.Request
 	status      int
 	contentType string
+	displayRaw bool
 }
 
 type responsePayload struct {
@@ -25,7 +26,13 @@ func NewResponse(w http.ResponseWriter, r *http.Request) *Response {
 		r:           r,
 		status:      http.StatusOK,
 		contentType: "application/json",
+		displayRaw: false,
 	}
+}
+
+func (res *Response) Raw() *Response{
+	res.displayRaw = true
+	return res
 }
 
 func (res *Response) ContentType(ct string) *Response {
@@ -56,6 +63,11 @@ func (res *Response) Success(data any) {
 		Data:   normalizePayload(data),
 	}
 
+	if res.displayRaw{
+		writeRaw(res.w, payload.Data)
+		return
+	}
+
 	res.w.WriteHeader(res.status)
 
 	if res.contentType == "application/json" {
@@ -77,6 +89,11 @@ func (res *Response) Error(err any, status ...int) {
 	payload := responsePayload{
 		Result: false,
 		Errors: normalizePayload(err),
+	}
+
+	if res.displayRaw{
+		writeRaw(res.w, payload.Errors)
+		return
 	}
 
 	res.w.WriteHeader(code)
