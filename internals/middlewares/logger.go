@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"net/http"
 	"log"
+	"net/http"
 	"time"
 )
 

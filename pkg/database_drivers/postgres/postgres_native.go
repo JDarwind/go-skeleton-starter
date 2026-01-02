@@ -13,8 +13,7 @@ import (
 type PostgresPGXNativeDriver struct {
 	postgresConfig PostgresConfig
 	pool           *pgxpool.Pool
- 	mu 				sync.Mutex
-
+	mu             sync.Mutex
 }
 
 func NewPostgresPGXNative(config PostgresConfig) *PostgresPGXNativeDriver {
@@ -24,16 +23,16 @@ func NewPostgresPGXNative(config PostgresConfig) *PostgresPGXNativeDriver {
 }
 
 func (p *PostgresPGXNativeDriver) Connect() error {
-	
+
 	p.mu.Lock()
-    defer p.mu.Unlock()
-	
+	defer p.mu.Unlock()
+
 	dsn := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=%s&search_path=%s",
-		p.postgresConfig.Username, 
-		p.postgresConfig.Password, 
-		p.postgresConfig.Host, 
-		p.postgresConfig.Port, 
+		p.postgresConfig.Username,
+		p.postgresConfig.Password,
+		p.postgresConfig.Host,
+		p.postgresConfig.Port,
 		p.postgresConfig.Database,
 		*p.postgresConfig.SslMode,
 		p.postgresConfig.Schema,
@@ -46,7 +45,7 @@ func (p *PostgresPGXNativeDriver) Connect() error {
 	if err != nil {
 		return err
 	}
-	
+
 	cfg.ConnConfig.DefaultQueryExecMode = pgx.QueryExecModeCacheStatement
 	cfg.ConnConfig.StatementCacheCapacity = 512
 
@@ -71,22 +70,22 @@ func (p *PostgresPGXNativeDriver) Connect() error {
 	}
 
 	p.pool = pool
-	if _,err := database.GetDatabaseManager().AddDatabaseToList(p, p.postgresConfig.ConnectionName); err != nil {
-    	p.pool.Close()
-    	return err
+	if _, err := database.GetDatabaseManager().AddDatabaseToList(p, p.postgresConfig.ConnectionName); err != nil {
+		p.pool.Close()
+		return err
 	}
 	return nil
 }
 
 func (p *PostgresPGXNativeDriver) Close() error {
-	
+
 	if p.pool == nil {
 		return fmt.Errorf("db not initialized")
 	}
-	
+
 	p.mu.Lock()
-    defer p.mu.Unlock()
-	
+	defer p.mu.Unlock()
+
 	p.pool.Close()
 	database.GetDatabaseManager().RemoveDbFromList(p.postgresConfig.ConnectionName)
 	return nil
@@ -96,7 +95,6 @@ func (p *PostgresPGXNativeDriver) GetDriver() *pgxpool.Pool {
 	return p.pool
 }
 
-
-func (p *PostgresPGXNativeDriver) IsConnected() bool{
+func (p *PostgresPGXNativeDriver) IsConnected() bool {
 	return p.pool != nil
 }

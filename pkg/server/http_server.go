@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func InitMuxWithRoutes(router http.Handler ) *http.ServeMux {
+func InitMuxWithRoutes(router http.Handler) *http.ServeMux {
 	cfg := config.GetConfigManager().GetConfig()
 
 	server := http.NewServeMux()
@@ -21,7 +21,7 @@ func InitMuxWithRoutes(router http.Handler ) *http.ServeMux {
 
 	server.Handle(prefix+"/", http.StripPrefix(prefix, router))
 
-	server.Handle(prefix, http.RedirectHandler(prefix +"/", http.StatusMovedPermanently))
+	server.Handle(prefix, http.RedirectHandler(prefix+"/", http.StatusMovedPermanently))
 
 	return server
 }

@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	once sync.Once
+	once    sync.Once
 	loadErr error
 )
 

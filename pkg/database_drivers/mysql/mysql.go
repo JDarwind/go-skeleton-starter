@@ -3,15 +3,15 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
-	"sync"
 	"github.com/JDarwind/go-skeleton-starter/pkg/database"
 	_ "github.com/go-sql-driver/mysql"
+	"sync"
 )
 
 type MysqlDriver struct {
-	mu     sync.Mutex
-	cfg    MysqlConfig
-	db     *sql.DB
+	mu  sync.Mutex
+	cfg MysqlConfig
+	db  *sql.DB
 }
 
 func NewMysqlDriver(cfg MysqlConfig) *MysqlDriver {

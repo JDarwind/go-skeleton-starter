@@ -5,21 +5,21 @@ import (
 	"os"
 )
 
-func getEnv( name string, defaultValue string ) ( string ) {
-	env:= os.Getenv( name )
+func getEnv(name string, defaultValue string) string {
+	env := os.Getenv(name)
 
 	if env != "" {
 		return env
 	}
-	
+
 	return defaultValue
 }
 
-func InitProject() *types.ProjectConfig{
+func InitProject() *types.ProjectConfig {
 	return &types.ProjectConfig{
 		Server: types.Server{
 			Prefix: "/",
-			Port: getEnv("APP_PORT", "8081"),
+			Port:   getEnv("APP_PORT", "8081"),
 		},
 	}
 }

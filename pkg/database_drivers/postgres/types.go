@@ -5,18 +5,17 @@ import "time"
 type SSLMode string
 
 const (
-    SSLDisable SSLMode = "disable"
-    SSLRequire SSLMode = "require"
-    SSLVerifyCa SSLMode = "verify-ca"
-    SSLVerifyAll SSLMode = "verify-full"
+	SSLDisable   SSLMode = "disable"
+	SSLRequire   SSLMode = "require"
+	SSLVerifyCa  SSLMode = "verify-ca"
+	SSLVerifyAll SSLMode = "verify-full"
 )
-
 
 type PostgresDriverType string
 
 const (
-	PostgresPGXNative  PostgresDriverType = "pgx_native"
-	PostgresPGXStdlib  PostgresDriverType = "pgx_stdlib"
+	PostgresPGXNative PostgresDriverType = "pgx_native"
+	PostgresPGXStdlib PostgresDriverType = "pgx_stdlib"
 )
 
 const (
@@ -30,36 +29,36 @@ const (
 )
 
 type PostgresConfig struct {
-	Username       string
-	Password       string
-	Host           string
-	Port           string
-	Database       string
-	Schema		   string
-	SslMode 	   *SSLMode
-	
+	Username string
+	Password string
+	Host     string
+	Port     string
+	Database string
+	Schema   string
+	SslMode  *SSLMode
+
 	ConnectionName string
 	DriverType     PostgresDriverType
 
-	MaxOpenConns     int           
-	MaxIdleConns     int           
-	MaxIdleTime      time.Duration 
-	
+	MaxOpenConns int
+	MaxIdleConns int
+	MaxIdleTime  time.Duration
+
 	MaxConnnectionTimeout time.Duration //Supported only on potgress native mode
 }
 
 func normalizeConfig(config *PostgresConfig) {
-	
-	if config.Schema == ""{
+
+	if config.Schema == "" {
 		config.Schema = defaultSchema
 	}
-	
+
 	if config.SslMode == nil {
-		sslDisabled:= SSLDisable
-		
+		sslDisabled := SSLDisable
+
 		config.SslMode = &sslDisabled
 	}
-	
+
 	if config.MaxOpenConns <= 0 {
 		config.MaxOpenConns = defaultMaxOpenConns
 	}
@@ -73,10 +72,10 @@ func normalizeConfig(config *PostgresConfig) {
 	}
 
 	if config.MaxIdleConns > config.MaxOpenConns {
-		config.MaxIdleConns = config.MaxOpenConns -1
+		config.MaxIdleConns = config.MaxOpenConns - 1
 	}
-	
-	if config.MaxConnnectionTimeout <= 0{
+
+	if config.MaxConnnectionTimeout <= 0 {
 		config.MaxConnnectionTimeout = 20 * time.Second
 	}
 }

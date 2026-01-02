@@ -3,13 +3,12 @@ package httpkit
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"net/http"
 	"reflect"
 	"strconv"
 	"strings"
-	"github.com/go-playground/validator/v10"
 )
-
 
 type ValidationMessages interface {
 	Messages() map[string]map[string]string
@@ -19,7 +18,7 @@ var validate = validator.New()
 
 func ValidateRequest[T any](r *http.Request, req *T) (any, map[string][]string) {
 	if r.Method != http.MethodGet {
-		_ = r.ParseForm() 
+		_ = r.ParseForm()
 		_ = json.NewDecoder(r.Body).Decode(req)
 	}
 

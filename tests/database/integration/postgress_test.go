@@ -1,4 +1,3 @@
-
 package integration
 
 import "github.com/JDarwind/go-skeleton-starter/pkg/database_drivers/postgres"

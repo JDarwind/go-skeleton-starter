@@ -9,12 +9,12 @@ import (
 	"github.com/JDarwind/go-skeleton-starter/pkg/server"
 )
 
-func main(){
+func main() {
 	configurations := config.NewConfigManager(nil).GetConfig()
-	
-	mux := server.InitMuxWithRoutes( routes.NewRouter() )
-	
-	if err:= http.ListenAndServe(":" + configurations.ProjectConfig.Server.Port, mux); err != nil {
+
+	mux := server.InitMuxWithRoutes(routes.NewRouter())
+
+	if err := http.ListenAndServe(":"+configurations.ProjectConfig.Server.Port, mux); err != nil {
 		log.Fatal(err)
-	} 
+	}
 }

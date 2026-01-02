@@ -2,7 +2,6 @@ package mysql
 
 import "time"
 
-
 type MysqlConfig struct {
 	Username       string
 	Password       string
