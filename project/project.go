@@ -23,3 +23,10 @@ func InitProject() *types.ProjectConfig {
 		},
 	}
 }
+//Default No operation on application config, you cna overrid it here for global configuation
+func InitApplicationConfig(applicationConfig any) any{
+	if applicationConfig != nil{
+		return applicationConfig
+	}
+	return nil
+}

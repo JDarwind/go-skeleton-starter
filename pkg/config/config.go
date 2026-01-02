@@ -66,7 +66,7 @@ func (cm *ConfigManager) loadConfig(applicationConfig any) *types.Config {
 	_ = godotenv.Load(envFile)
 
 	cm.configurations.ProjectConfig = project.InitProject()
-	cm.configurations.ApplicationConfigs = applicationConfig
+	cm.configurations.ApplicationConfigs = project.InitApplicationConfig(applicationConfig)
 	return cm.configurations
 }
 
