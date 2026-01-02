@@ -16,7 +16,6 @@ type ConfigOptions struct {
 
 type ConfigManager struct {
 	environmentFileLocaltion string
-	applicationConfigs       any
 	configurations           *types.Config
 }
 
@@ -43,17 +42,16 @@ func NewConfigManager(options *ConfigOptions) *ConfigManager {
 
 	cm := &ConfigManager{
 		environmentFileLocaltion: envFile,
-		applicationConfigs:       appConfig,
-		configurations:           nil,
+		configurations:          nil,
 	}
 
-	cm.loadConfig()
+	cm.loadConfig(appConfig)
 
 	configrationManager = cm
 	return cm
 }
 
-func (cm *ConfigManager) loadConfig() *types.Config {
+func (cm *ConfigManager) loadConfig(applicationConfig any) *types.Config {
 	if cm.configurations != nil {
 		return cm.configurations
 	}
@@ -68,7 +66,7 @@ func (cm *ConfigManager) loadConfig() *types.Config {
 	_ = godotenv.Load(envFile)
 
 	cm.configurations.ProjectConfig = project.InitProject()
-	cm.configurations.ApplicationConfigs = cm.applicationConfigs
+	cm.configurations.ApplicationConfigs = applicationConfig
 	return cm.configurations
 }
 
