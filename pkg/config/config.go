@@ -2,22 +2,12 @@ package config
 
 import (
 	"log"
-	"os"
 	"path/filepath"
 
 	"github.com/JDarwind/go-skeleton-starter/pkg/types"
 	"github.com/JDarwind/go-skeleton-starter/project"
 	"github.com/joho/godotenv"
 )
-
-type Config struct{
-	ProjectConfig types.ProjectConfig
-	
-	ServerConfig struct {
-		Port string
-	}
-	ApplicationConfigs any
-}
 
 type ConfigOptions struct {
 	EnvironmentFileLocaltion string
@@ -28,7 +18,7 @@ type ConfigOptions struct {
 type ConfigManager struct {
 	environmentFileLocaltion string
 	applicationConfigs any
-	configurations *Config
+	configurations *types.Config
 }
 
 
@@ -66,12 +56,12 @@ func NewConfigManager(options *ConfigOptions) *ConfigManager {
     return cm
 }
 
-func (cm *ConfigManager) loadConfig() *Config {
+func (cm *ConfigManager) loadConfig() *types.Config {
     if cm.configurations != nil {
         return cm.configurations
     }
 
-    cm.configurations = &Config{}
+    cm.configurations = &types.Config{}
 
     envFile, err := filepath.Abs(cm.environmentFileLocaltion)
     if err != nil {
@@ -80,8 +70,7 @@ func (cm *ConfigManager) loadConfig() *Config {
 
     _ = godotenv.Load(envFile)
 
-    cm.initConfiguartionObject()
-
+    cm.configurations.ProjectConfig = project.InitProject()
     cm.configurations.ApplicationConfigs = cm.applicationConfigs
     return cm.configurations
 }
@@ -93,29 +82,6 @@ func GetConfigManager() (*ConfigManager){
 	return configrationManager
 }
 
-func(configManager *ConfigManager) GetConfig()  ( *Config ){
+func(configManager *ConfigManager) GetConfig()  ( *types.Config ){
 	return configManager.configurations
-}
-
-
-func (configManager *ConfigManager) initConfiguartionObject(){
-	projectConfig, err := project.InitProject()
-	
-	if err != nil{
-		log.Fatal(err)
-	}
-	
-	configManager.configurations.ServerConfig.Port = configManager.getEnv("APP_PORT", "")
-	configManager.configurations.ProjectConfig.Server.Prefix = projectConfig.Server.Prefix
-}
-
-
-func (configManager *ConfigManager) getEnv( name string, defaultValue string ) ( string ) {
-	env:= os.Getenv( name )
-
-	if env != "" {
-		return env
-	}
-	
-	return defaultValue
 }

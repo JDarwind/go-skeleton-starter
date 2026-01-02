@@ -14,7 +14,7 @@ func main(){
 	
 	mux := server.InitMuxWithRoutes( routes.NewRouter() )
 	
-	if err:= http.ListenAndServe(":" + configurations.ServerConfig.Port, mux); err != nil {
+	if err:= http.ListenAndServe(":" + configurations.ProjectConfig.Server.Port, mux); err != nil {
 		log.Fatal(err)
 	} 
 }
